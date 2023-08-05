@@ -1,0 +1,21 @@
+package com.codechallenge.employeeapi.service;
+
+import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
+import com.codechallenge.employeeapi.model.entity.Employee;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+
+public interface EmployeeService {
+    Employee add(Employee employee);
+
+    List<Employee> getAllEmployee();
+
+    Optional<Employee> getEmployee(UUID uuid);
+
+    Employee update(Employee employee, UUID uuid) throws ObjectNotFoundException;
+
+    boolean deleteEmployee(UUID uuid) throws ObjectNotFoundException;
+}
