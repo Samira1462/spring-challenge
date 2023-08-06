@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 import static com.codechallenge.employeeapi.validation.uuid.UuidValidation.isValidUUID;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employees")
 @Validated
 public class EmployeeController {
     @Autowired
@@ -38,19 +39,18 @@ public class EmployeeController {
             @Valid @PathVariable("id")
             @NotNull
             UUID id
-    ) throws ObjectNotFoundException {
+    )  {
         if (!isValidUUID(id)) {
             throw new IllegalArgumentException("Invalid UUID format");
         }
         return ResponseEntity.ok(
                 employeeService.getEmployee(id)
                 .stream()
-                .map(this::convertToEmployeeDto).findFirst()
-                .orElseThrow(() -> new ObjectNotFoundException("employee not found for this id :: " + id))
+                .map(this::convertToEmployeeDto).findFirst().orElse(null)
         );
     }
 
-    @GetMapping(path = "/getAll", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<EmployeeDto>> getAllEmployee() {
         return  ResponseEntity
                 .status(HttpStatus.OK)
@@ -65,15 +65,22 @@ public class EmployeeController {
         return ResponseEntity.ok().body("deleted employee :: " + id);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> add(@Validated @RequestBody EmployeeDto employeeDto) {
-
-        employeeService.add(convertToEmployee(employeeDto));
-        return ResponseEntity.ok().body("saved employee");
+    @PostMapping
+    public ResponseEntity<String> add(@Valid @RequestBody EmployeeDto employeeDto) {
+        try {
+            employeeService.add(convertToEmployee(employeeDto));
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("employee  created successfully.");
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email address already exists.");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Validated @RequestBody EmployeeDto employeeDto, @PathVariable("id") UUID id) throws ObjectNotFoundException {
+    public ResponseEntity<?> update(@Valid @RequestBody EmployeeDto employeeDto, @PathVariable("id") UUID id) throws ObjectNotFoundException {
         Employee update = employeeService.update(convertToEmployee(employeeDto), id);
         if (update == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("could not find employee");

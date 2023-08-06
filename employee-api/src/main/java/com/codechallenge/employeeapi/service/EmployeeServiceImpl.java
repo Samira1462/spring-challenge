@@ -4,6 +4,7 @@ import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
 import com.codechallenge.employeeapi.model.entity.Employee;
 import com.codechallenge.employeeapi.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee add(Employee employee) {
+    public Employee add(Employee employee) throws DataIntegrityViolationException{
         return employeeRepository.saveAndFlush(employee);
     }
 

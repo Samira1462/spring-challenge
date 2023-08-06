@@ -3,8 +3,6 @@ package com.codechallenge.employeeapi.model.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +31,6 @@ public class Employee {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-DD")
     private Date birthday;
 
-    @Column(nullable = true)
     private List<String> hobbies;
     @Override
     public boolean equals(Object o) {
