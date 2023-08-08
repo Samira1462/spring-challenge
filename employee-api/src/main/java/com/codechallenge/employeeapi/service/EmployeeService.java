@@ -18,5 +18,5 @@ public interface EmployeeService {
 
     Employee update(Employee employee, UUID uuid) throws ObjectNotFoundException;
 
-    boolean deleteEmployee(UUID uuid) throws ObjectNotFoundException;
+    void deleteEmployee(UUID uuid) throws ObjectNotFoundException;
 }

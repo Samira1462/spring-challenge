@@ -1,0 +1,31 @@
+spring:
+  kafka:
+    topic:
+      name: ${KAFKA_TOPIC_NAME:employee-topic}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:employee-group}
+    bootstrap-servers: ${KAFKA_URL:localhost:9092}
+
+---
+spring:
+  application:
+    name: employee-api
+  profiles:
+    active: embedded
+  kafka:
+    topic:
+      name: embedded-topic
+    consumer:
+      group-id: embedded-group
+    bootstrap-servers: ${KAFKA_URL:localhost:9092}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:employee_db}?createDatabaseIfNotExist=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:password}
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+#     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

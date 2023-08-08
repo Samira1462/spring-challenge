@@ -25,5 +25,7 @@ The email field is unique, i.e. 2 employees cannot have the same email
 * Java 17
 * Spring boot 3
 * gradle 7
-* 
+
+
+docker-compose down && docker-compose build --no-cache && docker-compose up
 
