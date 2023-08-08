@@ -34,6 +34,7 @@ public class ProducerConfig {
 
     @Bean
     KafkaTemplate<String, Serializable> jsonKafkaTemplate(ProducerFactory<String, Serializable> jsonProducerFactory) {
+        log.info("Configure concurrent producer Kafka");
         return new KafkaTemplate<>(jsonProducerFactory);
     }
 }

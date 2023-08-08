@@ -4,6 +4,7 @@ import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
 
 import com.codechallenge.employeeapi.model.entity.Employee;
 import com.codechallenge.employeeapi.model.entity.EmployeeMessage;
+import com.codechallenge.employeeapi.model.entity.EventEnum;
 import com.codechallenge.employeeapi.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     @Autowired
-    private final EventPublisherService kafkaEventPublisherService;
+    private final EventPublisherService eventPublisherService;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EventPublisherService kafkaEventPublisherService) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EventPublisherService eventPublisherService) {
         this.employeeRepository = employeeRepository;
-        this.kafkaEventPublisherService = kafkaEventPublisherService;
+        this.eventPublisherService = eventPublisherService;
     }
 
     @Override
     public Employee add(Employee employee) throws DataIntegrityViolationException{
         Employee savedEmployee = employeeRepository.saveAndFlush(employee);
-        kafkaEventPublisherService.sendEmployeeEvent(new EmployeeMessage(savedEmployee,"add"));
+        eventPublisherService
+                .sendEmployeeEvent(new EmployeeMessage(savedEmployee,EventEnum.CREATED.getDisplayName()));
         return savedEmployee;
     }
 
@@ -47,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee update(Employee employee, UUID id) throws ObjectNotFoundException {
         Employee savedEmployee = employeeRepository
-                .findByEmail(employee.getEmail())
+                .findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("employee not found for this id :: " + id));
         if (savedEmployee != null) {
             savedEmployee.setEmail(employee.getEmail());
@@ -56,7 +58,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             savedEmployee.setBirthday(employee.getBirthday());
             savedEmployee.setHobbies(employee.getHobbies());
             Employee employeeUpdated = employeeRepository.save(savedEmployee);
-            kafkaEventPublisherService.sendEmployeeEvent(new EmployeeMessage(employeeUpdated,"edit"));
+            eventPublisherService
+                    .sendEmployeeEvent(new EmployeeMessage(employeeUpdated, EventEnum.UPDATED.getDisplayName()));
             return employeeUpdated;
         }
         return null;
@@ -69,7 +72,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ObjectNotFoundException("employee not found for this id :: " + id));
         if (existingEmployee != null) {
             employeeRepository.delete(existingEmployee);
-            kafkaEventPublisherService.sendEmployeeEvent(new EmployeeMessage(existingEmployee,"delete"));
+            eventPublisherService
+                    .sendEmployeeEvent(new EmployeeMessage(existingEmployee,EventEnum.DELETED.getDisplayName()));
         }
     }
 }

@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.codechallenge.employeeapi.validation.uuid.UuidValidation.isValidUUID;
-
 @RestController
 @RequestMapping("/employees")
 @Validated
@@ -40,9 +38,6 @@ public class EmployeeController {
             @NotNull
             UUID id
     )  {
-        if (!isValidUUID(id)) {
-            throw new IllegalArgumentException("Invalid UUID format");
-        }
         return ResponseEntity.ok(
                 employeeService.getEmployee(id)
                 .stream()

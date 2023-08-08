@@ -5,6 +5,7 @@ import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
 import com.codechallenge.employeeapi.model.entity.Employee;
 import com.codechallenge.employeeapi.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,9 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 @SpringBootTest
@@ -39,6 +38,7 @@ class EmployeeControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @DisplayName("get employee successful")
     public void getEmployeeSuccessThenReturnSavedEmployee() throws Exception {
         // given
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
@@ -65,6 +65,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @DisplayName("get employee successful and return null")
     public void getEmployeeSuccessThenReturnNull() throws Exception {
         //given
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
@@ -79,6 +80,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @DisplayName("get employee with Invalid UUID then return server error")
     public void getEmployeeInvalidUUIDParameterThenReturnIs5xx() throws Exception {
         String invalidId = "not-a-valid-uuid";
         mockMvc.perform(get("/employees/{id}", invalidId))
@@ -87,7 +89,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void getAllEmployeeReturnsOkResponseWithEmployeeList() throws Exception {
+    @DisplayName("get all employee list")
+    public void getAllEmployeeReturnsOkactualWithEmployeeList() throws Exception {
         // given
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
         Employee employee = new Employee();
@@ -123,6 +126,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @DisplayName("get all employee when no employees found then return empty List")
     public void GetAllEmployeeWhenNoEmployeesFoundThenReturnsEmptyList() throws Exception {
         List<Employee> mockEmployees = List.of();
 
@@ -141,6 +145,7 @@ class EmployeeControllerTest {
 
     }
     @Test
+    @DisplayName("delete employee with employee email")
     void deleteEmployeeWhenEmployeeIsDeletedThenReturnOk() throws Exception {
         // given
         UUID id = UUID.randomUUID();
@@ -157,7 +162,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void deleteEmployeeWhenEmployeeIsNotFoundShouldReturnNotFoundResponse() throws Exception {
+    @DisplayName("delete employee is not found then return not found actual")
+    void deleteEmployeeWhenEmployeeIsNotFoundShouldReturnNotFoundactual() throws Exception {
         // given
         UUID id = UUID.randomUUID();
         doThrow(new ObjectNotFoundException("Employee not found")).when(serviceUnderTest).deleteEmployee(id);
@@ -172,6 +178,7 @@ class EmployeeControllerTest {
     }
 
     @Test
+    @DisplayName("delete employee is not found then return server error")
     void deleteEmployeeWhenInvalidIdFormatIsProvidedShouldReturnIs500() throws Exception {
         // then
         mockMvc.perform(delete("/employees/invalid-id")
@@ -180,7 +187,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void AddEmployeeThenReturnSuccess() throws Exception{
+    @DisplayName("add employee successful")
+    public void AddEmployeeThenReturnSuccess() throws Exception {
         // given
         Date birthday = new Date(1661617210633L);
         EmployeeDto employee = EmployeeDto.builder()
@@ -201,27 +209,52 @@ class EmployeeControllerTest {
         // then
         actual.andExpect(status().isCreated())
                 .andDo(print());
-
     }
 
     @Test
+    @DisplayName("add employee successful")
     public void AddEmployeeThenThrowsDataIntegrityViolationException() {
 
     }
 
     @Test
-    void updateThenReturnSuccess() {
+    @DisplayName("update employee successful")
+    void updateThenReturnSuccess() throws Exception {
+        // given
+        UUID id = UUID.randomUUID();
+        Date birthday = new Date(1661617210633L);
+        Employee savedEmployee = Employee.builder()
+                .firstName("Samira")
+                .lastName("Radmaneshfar")
+                .email("Samira.Radmaneshfar@gmail.com")
+                .birthday(birthday)
+                .hobbies(List.of())
+                .build();
+
+        EmployeeDto updatedEmployee = EmployeeDto.builder()
+                .firstName("Samira")
+                .lastName("Radman")
+                .email("Samira.Radmaneshfar@gmail.com")
+                .birthday(birthday)
+                .hobbies(List.of())
+                .build();
+
+        given(serviceUnderTest.getEmployee(any(UUID.class)))
+                .willReturn(Optional.ofNullable(savedEmployee));
+        given(serviceUnderTest.update(any(Employee.class), any(UUID.class)))
+                .willAnswer((invocation)-> invocation.getArgument(0));
+
+        //when
+        ResultActions actual = mockMvc.perform(put("/employees/{id}", id.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedEmployee)));
+
+        // then
+
+        actual.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.firstName", is(updatedEmployee.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(updatedEmployee.getLastName())));
     }
 
-    @Test
-    void updateThenReturnEmployeeNotFound() {
-    }
-
-    @Test
-    void updateWhenIdIsNullThenReturnException() {
-    }
-
-    @Test
-    void updateWhenBodyIsNullThenReturnException() {
-    }
 }
