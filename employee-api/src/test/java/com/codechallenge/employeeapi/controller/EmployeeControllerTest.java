@@ -257,4 +257,21 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$.lastName", is(updatedEmployee.getLastName())));
     }
 
+    @Test
+    @DisplayName("update employee not found")
+    void updateThenReturnEmployeeNotFound() throws Exception {
+
+        // given
+        UUID id = UUID.randomUUID();
+        doThrow(new ObjectNotFoundException("Employee not found"))
+                .when(serviceUnderTest).update(any(Employee.class), id);
+
+        // when
+        mockMvc.perform(put("/employees/{id}", id.toString())
+                        .contentType("application/json"))
+                .andExpect(status().isNotFound());
+        //then
+        verify(serviceUnderTest, times(1)).update(any(Employee.class), any(UUID.class));
+    }
+
 }

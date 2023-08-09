@@ -37,17 +37,17 @@ public class EmployeeController {
             @Valid @PathVariable("id")
             @NotNull
             UUID id
-    )  {
+    ) {
         return ResponseEntity.ok(
                 employeeService.getEmployee(id)
-                .stream()
-                .map(this::convertToEmployeeDto).findFirst().orElse(null)
+                        .stream()
+                        .map(this::convertToEmployeeDto).findFirst().orElse(null)
         );
     }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<EmployeeDto>> getAllEmployee() {
-        return  ResponseEntity
+        return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(employeeService.getAllEmployee().stream()
                         .map(this::convertToEmployeeDto)
@@ -75,12 +75,20 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody EmployeeDto employeeDto, @PathVariable("id") UUID id) throws ObjectNotFoundException {
-        Employee update = employeeService.update(convertToEmployee(employeeDto), id);
-        if (update == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("could not find employee");
+    public ResponseEntity<?> update(
+            @Valid @RequestBody EmployeeDto employeeDto,
+            @PathVariable("id") UUID id) throws DataIntegrityViolationException {
+        try {
+            Employee update = employeeService.update(convertToEmployee(employeeDto), id);
+            if (update == null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("could not find employee");
+            }
+            return ResponseEntity.ok(update);
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email address already exists.");
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
         }
-        return ResponseEntity.ok(update);
     }
 
     protected EmployeeDto convertToEmployeeDto(Employee employee) {

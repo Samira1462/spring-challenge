@@ -30,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee add(Employee employee) throws DataIntegrityViolationException{
+    public Employee add(Employee employee) throws DataIntegrityViolationException {
         Employee savedEmployee = employeeRepository.saveAndFlush(employee);
         eventPublisherService
                 .sendEmployeeEvent(new EmployeeMessage(savedEmployee,EventEnum.CREATED.getDisplayName()));
@@ -47,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findById(id);
     }
     @Override
-    public Employee update(Employee employee, UUID id) throws ObjectNotFoundException {
+    public Employee update(Employee employee, UUID id) throws ObjectNotFoundException, DataIntegrityViolationException{
         Employee savedEmployee = employeeRepository
                 .findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("employee not found for this id :: " + id));

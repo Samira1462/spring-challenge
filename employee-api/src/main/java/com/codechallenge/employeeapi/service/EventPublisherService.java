@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 
-import static java.util.Objects.requireNonNull;
-
 @Slf4j
 @Service
 public class EventPublisherService {
@@ -26,7 +24,6 @@ public class EventPublisherService {
     }
 
     public void sendEmployeeEvent(EmployeeMessage message) {
-        requireNonNull(message, "message should not be null");
 
         kafkaTemplate.send(topic, message);
 

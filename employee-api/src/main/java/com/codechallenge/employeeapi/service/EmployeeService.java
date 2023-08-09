@@ -16,7 +16,7 @@ public interface EmployeeService {
 
     Optional<Employee> getEmployee(UUID uuid);
 
-    Employee update(Employee employee, UUID uuid) throws ObjectNotFoundException;
+    Employee update(Employee employee, UUID uuid) throws ObjectNotFoundException, DataIntegrityViolationException;
 
     void deleteEmployee(UUID uuid) throws ObjectNotFoundException;
 }
