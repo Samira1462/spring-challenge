@@ -1,7 +1,7 @@
 package com.codechallenge.employeeapi.service;
 
 import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
-import com.codechallenge.employeeapi.model.entity.Employee;
+import com.codechallenge.employeeapi.model.Employee;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;

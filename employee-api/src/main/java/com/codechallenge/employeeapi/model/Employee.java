@@ -1,4 +1,4 @@
-package com.codechallenge.employeeapi.model.entity;
+package com.codechallenge.employeeapi.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

@@ -1,8 +1,9 @@
 package com.codechallenge.employeeapi.service;
 
-import com.codechallenge.employeeapi.model.entity.Employee;
-import com.codechallenge.employeeapi.model.entity.EmployeeMessage;
+import com.codechallenge.employeeapi.model.Employee;
+import com.codechallenge.employeeapi.model.EmployeeMessage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,8 +30,9 @@ public class EventPublisherServiceTest {
         eventPublisherService = new EventPublisherService(kafkaTemplate);
     }
     @Test
-    public void testSendEmployeeEvent() {
-        // Given
+    @DisplayName("send employee event")
+    public void sendEmployeeEvent() {
+
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
         Date birthday = new Date(1661617210633L);
         Employee employee = Employee.builder()
@@ -43,10 +45,8 @@ public class EventPublisherServiceTest {
                 .build();
         EmployeeMessage message = new EmployeeMessage(employee, "create");
 
-        // When
         eventPublisherService.sendEmployeeEvent(message);
 
-        // Then
         assertDoesNotThrow(() ->  eventPublisherService.sendEmployeeEvent(message));
     }
 

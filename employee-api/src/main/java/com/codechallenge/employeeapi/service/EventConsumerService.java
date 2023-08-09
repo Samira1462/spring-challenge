@@ -1,6 +1,6 @@
 package com.codechallenge.employeeapi.service;
 
-import com.codechallenge.employeeapi.model.entity.EmployeeMessage;
+import com.codechallenge.employeeapi.model.EmployeeMessage;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

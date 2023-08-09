@@ -1,4 +1,4 @@
-package com.codechallenge.employeeapi.model.entity;
+package com.codechallenge.employeeapi.model;
 
 public enum EventEnum {
     CREATED("Created"),

@@ -2,7 +2,7 @@ package com.codechallenge.employeeapi.controller;
 
 import com.codechallenge.employeeapi.dto.EmployeeDto;
 import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
-import com.codechallenge.employeeapi.model.entity.Employee;
+import com.codechallenge.employeeapi.model.Employee;
 import com.codechallenge.employeeapi.service.EmployeeService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

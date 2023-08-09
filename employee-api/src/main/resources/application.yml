@@ -10,8 +10,6 @@ spring:
 spring:
   application:
     name: employee-api
-  profiles:
-    active: embedded
   kafka:
     topic:
       name: embedded-topic

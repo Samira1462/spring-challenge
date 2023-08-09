@@ -2,9 +2,9 @@ package com.codechallenge.employeeapi.service;
 
 import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
 
-import com.codechallenge.employeeapi.model.entity.Employee;
-import com.codechallenge.employeeapi.model.entity.EmployeeMessage;
-import com.codechallenge.employeeapi.model.entity.EventEnum;
+import com.codechallenge.employeeapi.model.Employee;
+import com.codechallenge.employeeapi.model.EmployeeMessage;
+import com.codechallenge.employeeapi.model.EventEnum;
 import com.codechallenge.employeeapi.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

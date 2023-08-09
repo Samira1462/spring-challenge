@@ -1,6 +1,6 @@
 package com.codechallenge.employeeapi.config;
 
-import com.codechallenge.employeeapi.model.entity.EmployeeMessage;
+import com.codechallenge.employeeapi.model.EmployeeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
