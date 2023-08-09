@@ -4,9 +4,9 @@ Welcome to the Employee Management Application, a REST API-based solution for ef
 
 ## Table of Contents
 
-- [Requirements](#requirements)
-- [Technologies Used](#technologies-used)
-- [Installation and Setup](#installation-and-setup)
+- Requirements
+- Technologies Used
+- Installation and Setup
 
 ## Requirements
 
@@ -52,5 +52,6 @@ install docker base on O.S.
    
    ```sh  
    ./gradlew bootRun
-   
+5. Access the Swagger API documentation:
+   http://localhost:8080/swagger-ui/index.html#/employee-controller/update
 
