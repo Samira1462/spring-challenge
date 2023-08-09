@@ -1,9 +1,10 @@
 package com.codechallenge.employeeapi.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 @Getter
 @Setter
@@ -11,10 +12,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeDto {
-//    @Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", message = "Invalid UUID format")
+
     private UUID id;
 
-    @NonNull
+    @NotEmpty
     private String email;
 
     private String firstName;
@@ -23,5 +24,5 @@ public class EmployeeDto {
 
     private Date birthday;
 
-    private List<String> hobbies;
+    private Set<String> hobbies;
 }

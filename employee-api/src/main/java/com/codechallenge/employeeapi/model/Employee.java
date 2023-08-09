@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name="TBL_EMPLOYEE")
@@ -31,7 +28,7 @@ public class Employee {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-DD")
     private Date birthday;
 
-    private List<String> hobbies;
+    private Set<String> hobbies;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
