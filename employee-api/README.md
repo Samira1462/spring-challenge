@@ -39,7 +39,7 @@ The application meets the following criteria:
 1. Clone the repository:
    ```sh
    git clone https://github.com/Samira1462/spring-challenge/tree/main/employee-api
-   cd 
+   
 
 2. Install dependencies:
 install docker base on O.S. 
