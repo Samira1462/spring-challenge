@@ -1,31 +1,56 @@
-# Getting Started
-## Employee API
-Your goal is to implement an application that handles the employees of a company. The
-application must expose a REST API, so that other services can communicate with it
-easily.
+# Employee Management Application
 
-## Steps
-The application must be able to:
-1. Create an employee with the following properties
-   ○ Uuid (generated automatically)
-   ○ E-mail
-   ○ Full name (first and last name)
-   ○ Birthday (format YYYY-MM-DD)
-   ○ List of hobbies (for example, "soccer", "music", etc)
-2. Get a list of all employees (response in JSON Array format)
-3. Get a specific employee by uuid (response in JSON Object format)
-4. Update an employee
-5. Delete an employee
-6. Whenever an employee is created, updated or deleted, an event related to this
-   action must be pushed in some message broker (i.e, Kafka, RabbitMq, etc).
-## Restriction
-The email field is unique, i.e. 2 employees cannot have the same email
+Welcome to the Employee Management Application, a REST API-based solution for efficiently handling employee records within your company. This application exposes endpoints that allow you to manage employees, including creating, retrieving, updating, and deleting records. It also integrates with a message broker to ensure event notifications for relevant actions.
+
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Technologies Used](#technologies-used)
+- [Installation and Setup](#installation-and-setup)
 
 ## Requirements
-* Java 17
-* Spring boot 3
-* gradle 7
 
+The application meets the following criteria:
 
-docker-compose down && docker-compose build --no-cache && docker-compose up
+1. **Create Employee:** Create new employee profiles with automatic UUID generation, email, full name, birthday, and hobbies.
+
+2. **Get All Employees:** Retrieve a list of all employees in JSON array format.
+
+3. **Get Employee by Uuid:** Fetch a specific employee's details in JSON object format.
+
+4. **Update Employee:** Modify employee information.
+
+5. **Delete Employee:** Remove an employee record.
+
+6. **Event Notification:** Emit events to a message broker (e.g., Kafka, RabbitMq) upon employee creation, update, or deletion.
+
+## Technologies Used
+
+- Programming Language: Java 17
+- Web Framework: Spring boot 3 
+- Database: mySQL
+- Message Broker: Kafka
+- API Documentation: Swagger
+- Build tools: gradle 7 
+- Docker
+
+## Installation and Setup
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Samira1462/spring-challenge/tree/main/employee-api
+   cd 
+
+2. Install dependencies:
+install docker base on O.S. 
+
+3. Build and run the application:
+   ```sh 
+   docker-compose down && docker-compose build --no-cache && docker-compose up
+
+4. Go to the root of the application where build.gradle and Run execute the below command
+   
+   ```sh  
+   ./gradlew bootRun
+   
 
