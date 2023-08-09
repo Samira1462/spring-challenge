@@ -22,13 +22,13 @@ The application meets the following criteria:
 
 5. **Delete Employee:** Remove an employee record.
 
-6. **Event Notification:** Emit events to a message broker (e.g., Kafka, RabbitMq) upon employee creation, update, or deletion.
+6. **Event Notification:** Emit events to a message broker Kafka upon employee creation, update, or deletion.
 
 ## Technologies Used
 
 - Programming Language: Java 17
-- Web Framework: Spring boot 3 
-- Database: mySQL
+- Web Framework: Spring Boot 3 
+- Database: MySQL
 - Message Broker: Kafka
 - API Documentation: Swagger
 - Build tools: gradle 7 
