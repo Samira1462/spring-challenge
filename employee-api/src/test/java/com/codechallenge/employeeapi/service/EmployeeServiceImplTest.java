@@ -24,6 +24,9 @@ class EmployeeServiceImplTest {
     @InjectMocks
     EmployeeServiceImpl employeeServiceUnderTest;
 
+    @Mock
+    private EventPublisherService eventPublisherService;
+
     @Test
     @DisplayName("add employee")
     void add() {
