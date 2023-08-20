@@ -12,7 +12,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -41,7 +40,7 @@ public class EventPublisherServiceTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
         EmployeeMessage message = new EmployeeMessage(employee, "create");
 

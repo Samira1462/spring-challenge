@@ -24,9 +24,6 @@ class EmployeeServiceImplTest {
     @InjectMocks
     EmployeeServiceImpl employeeServiceUnderTest;
 
-    @Mock
-    private EventPublisherService eventPublisherService;
-
     @Test
     @DisplayName("add employee")
     void add() {
@@ -61,7 +58,7 @@ class EmployeeServiceImplTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
         Employee savedEmployeeTwo = Employee.builder()
                 .id(UUID.randomUUID())
@@ -69,7 +66,7 @@ class EmployeeServiceImplTest {
                 .lastName("Radmaneshfar")
                 .email("Sa.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
         List<Employee> expectedEmployees = new ArrayList<>();
         expectedEmployees.add(savedEmployeeOne);
@@ -98,7 +95,7 @@ class EmployeeServiceImplTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.ofNullable(savedEmployeeOne));
@@ -120,7 +117,7 @@ class EmployeeServiceImplTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
         Employee updatedEmployee = Employee.builder()
                 .id(employeeId)
@@ -128,7 +125,7 @@ class EmployeeServiceImplTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(existingEmployee));
@@ -152,7 +149,7 @@ class EmployeeServiceImplTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
@@ -181,5 +178,4 @@ class EmployeeServiceImplTest {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
         assertThrows(ObjectNotFoundException.class, () -> employeeServiceUnderTest.deleteEmployee(employeeId));
-    }
-}
+    }}

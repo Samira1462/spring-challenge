@@ -7,7 +7,6 @@ import com.codechallenge.employeeapi.model.EmployeeMessage;
 import com.codechallenge.employeeapi.model.EventEnum;
 import com.codechallenge.employeeapi.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +17,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    @Autowired
     private final EmployeeRepository employeeRepository;
-
-    @Autowired
     private final EventPublisherService eventPublisherService;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, EventPublisherService eventPublisherService) {

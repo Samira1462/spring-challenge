@@ -7,7 +7,6 @@ import com.codechallenge.employeeapi.service.EmployeeService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/employees")
 @Validated
 public class EmployeeController {
-    @Autowired
     private final ModelMapper mapper;
-    @Autowired
     private final EmployeeService employeeService;
 
     public EmployeeController(ModelMapper mapper, EmployeeService employeeService) {

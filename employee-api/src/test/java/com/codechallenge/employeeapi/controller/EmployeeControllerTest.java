@@ -40,7 +40,7 @@ class EmployeeControllerTest {
     @Test
     @DisplayName("get employee successful")
     public void getEmployeeSuccessThenReturnSavedEmployee() throws Exception {
-        
+
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
         Employee employee = new Employee();
         employee.setId(employeeId);
@@ -87,7 +87,7 @@ class EmployeeControllerTest {
     @Test
     @DisplayName("get all employee list")
     public void getAllEmployeeReturnsOkactualWithEmployeeList() throws Exception {
-        
+
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
         Employee employee = new Employee();
         employee.setId(employeeId);
@@ -139,7 +139,7 @@ class EmployeeControllerTest {
     @Test
     @DisplayName("delete employee with employee email")
     void deleteEmployeeWhenEmployeeIsDeletedThenReturnOk() throws Exception {
-        
+
         UUID id = UUID.randomUUID();
         willDoNothing().given(serviceUnderTest).deleteEmployee(id);
 
@@ -154,7 +154,7 @@ class EmployeeControllerTest {
     @Test
     @DisplayName("delete employee is not found then return not found actual")
     void deleteEmployeeWhenEmployeeIsNotFoundShouldReturnNotFound() throws Exception {
-        
+
         UUID id = UUID.randomUUID();
         doThrow(new ObjectNotFoundException("Employee not found")).when(serviceUnderTest).deleteEmployee(id);
 
@@ -177,14 +177,14 @@ class EmployeeControllerTest {
     @Test
     @DisplayName("add employee successful")
     public void addEmployeeThenReturnSuccess() throws Exception {
-        
+
         Date birthday = new Date(1661617210633L);
         EmployeeDto employee = EmployeeDto.builder()
                 .firstName("Samira")
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies(Set.of("Reading, Swimming"))
                 .build();
         given(serviceUnderTest.add(any(Employee.class)))
                 .willAnswer((invocation)-> invocation.getArgument(0));
@@ -206,7 +206,7 @@ class EmployeeControllerTest {
     @Test
     @DisplayName("update employee successful")
     void updateThenReturnSuccess() throws Exception {
-        
+
         UUID id = UUID.randomUUID();
         Date birthday = new Date(1661617210633L);
         Employee savedEmployee = Employee.builder()
@@ -214,7 +214,7 @@ class EmployeeControllerTest {
                 .lastName("Radmaneshfar")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies("Reading, Swimming")
                 .build();
 
         EmployeeDto updatedEmployee = EmployeeDto.builder()
@@ -222,7 +222,7 @@ class EmployeeControllerTest {
                 .lastName("Radman")
                 .email("Samira.Radmaneshfar@gmail.com")
                 .birthday(birthday)
-                .hobbies(List.of())
+                .hobbies(Set.of("Reading, Swimming"))
                 .build();
 
         given(serviceUnderTest.getEmployee(any(UUID.class)))

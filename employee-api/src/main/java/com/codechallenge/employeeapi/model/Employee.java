@@ -28,7 +28,7 @@ public class Employee {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-DD")
     private Date birthday;
 
-    private Set<String> hobbies;
+    private String hobbies;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
