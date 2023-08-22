@@ -133,10 +133,6 @@ class EmployeeControllerTest {
     }
 
     @Test
-    public void getAllEmployeeReturnsInternalServerErrorWhenServiceFails() {
-
-    }
-    @Test
     @DisplayName("delete employee with employee email")
     void deleteEmployeeWhenEmployeeIsDeletedThenReturnOk() throws Exception {
 
@@ -195,12 +191,6 @@ class EmployeeControllerTest {
 
         actual.andExpect(status().isCreated())
                 .andDo(print());
-    }
-
-    @Test
-    @DisplayName("add employee successful")
-    public void addEmployeeThenThrowsDataIntegrityViolationException() {
-
     }
 
     @Test

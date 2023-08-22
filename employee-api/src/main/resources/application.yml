@@ -1,20 +1,12 @@
 spring:
+  application:
+    name: employee-api
   kafka:
     topic:
       name: ${KAFKA_TOPIC_NAME:employee-topic}
     consumer:
       group-id: ${KAFKA_GROUP_ID:employee-group}
-    bootstrap-servers: ${KAFKA_URL:localhost:9092}
-
----
-spring:
-  application:
-    name: employee-api
-  kafka:
-    topic:
-      name: embedded-topic
-    consumer:
-      group-id: embedded-group
+      auto-offset-reset: latest
     bootstrap-servers: ${KAFKA_URL:localhost:9092}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,4 +18,4 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-#     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
