@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -47,7 +46,7 @@ public class EmployeeController {
                 .status(HttpStatus.OK)
                 .body(employeeService.getAllEmployee().stream()
                         .map(this::convertToEmployeeDto)
-                        .collect(Collectors.toList()));
+                        .toList());
     }
 
     @DeleteMapping(path = "/{id}", produces = "application/json")

@@ -1,7 +1,6 @@
 package com.codechallenge.employeeapi.service;
 
 import com.codechallenge.employeeapi.exception.ObjectNotFoundException;
-
 import com.codechallenge.employeeapi.model.Employee;
 import com.codechallenge.employeeapi.model.EmployeeMessage;
 import com.codechallenge.employeeapi.model.EventEnum;
