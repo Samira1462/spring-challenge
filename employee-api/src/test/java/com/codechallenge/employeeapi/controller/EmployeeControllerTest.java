@@ -76,17 +76,16 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DisplayName("get employee with Invalid UUID then return server error")
-    public void getEmployeeInvalidUUIDParameterThenReturnIs5xx() throws Exception {
+    @DisplayName("get employee with Invalid UUID then return client error")
+    public void getEmployeeInvalidUUIDParameterThenReturnIs4xx() throws Exception {
         String invalidId = "not-a-valid-uuid";
         mockMvc.perform(get("/employees/{id}", invalidId))
-                .andExpect(status().is5xxServerError())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
     @DisplayName("get all employee list")
-    public void getAllEmployeeReturnsOkactualWithEmployeeList() throws Exception {
+    public void getAllEmployeeReturnsOkActualWithEmployeeList() throws Exception {
 
         UUID employeeId = UUID.fromString("39822545-e35d-4445-80a5-64336b59f166");
         Employee employee = new Employee();
@@ -163,11 +162,11 @@ class EmployeeControllerTest {
 
     @Test
     @DisplayName("delete employee is not found then return server error")
-    void deleteEmployeeWhenInvalidIdFormatIsProvidedShouldReturnIs500() throws Exception {
+    void deleteEmployeeWhenInvalidIdFormatIsProvidedShouldReturnIs400() throws Exception {
 
         mockMvc.perform(delete("/employees/invalid-id")
                         .contentType("application/json"))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -175,19 +174,18 @@ class EmployeeControllerTest {
     public void addEmployeeThenReturnSuccess() throws Exception {
 
         Date birthday = new Date(1661617210633L);
-        EmployeeDto employee = EmployeeDto.builder()
-                .firstName("Samira")
-                .lastName("Radmaneshfar")
-                .email("Samira.Radmaneshfar@gmail.com")
-                .birthday(birthday)
-                .hobbies(Set.of("Reading, Swimming"))
-                .build();
+        EmployeeDto dto = new EmployeeDto();
+        dto.setFirstName("Samira");
+        dto.setLastName("Radmaneshfar");
+        dto.setEmail("Samira.Radmaneshfar@gmail.com");
+        dto.setBirthday(birthday);
+        dto.setHobbies(Set.of("Reading, Swimming"));
         given(serviceUnderTest.add(any(Employee.class)))
                 .willAnswer((invocation)-> invocation.getArgument(0));
 
         ResultActions actual = mockMvc.perform(post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(employee)));
+                .content(objectMapper.writeValueAsString(dto)));
 
         actual.andExpect(status().isCreated())
                 .andDo(print());
@@ -206,14 +204,12 @@ class EmployeeControllerTest {
                 .birthday(birthday)
                 .hobbies("Reading, Swimming")
                 .build();
-
-        EmployeeDto updatedEmployee = EmployeeDto.builder()
-                .firstName("Samira")
-                .lastName("Radman")
-                .email("Samira.Radmaneshfar@gmail.com")
-                .birthday(birthday)
-                .hobbies(Set.of("Reading, Swimming"))
-                .build();
+        EmployeeDto updatedEmployee = new EmployeeDto();
+        updatedEmployee.setFirstName("Samira");
+        updatedEmployee.setLastName("Radmaneshfar");
+        updatedEmployee.setEmail("Samira.Radmaneshfar@gmail.com");
+        updatedEmployee.setBirthday(birthday);
+        updatedEmployee.setHobbies(Set.of("Reading, Swimming"));
 
         given(serviceUnderTest.getEmployee(any(UUID.class)))
                 .willReturn(Optional.ofNullable(savedEmployee));

@@ -1,16 +1,16 @@
 package com.codechallenge.employeeapi.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class EmployeeDto {
 
     private UUID id;

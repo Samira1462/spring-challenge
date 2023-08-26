@@ -28,7 +28,6 @@ public class EmployeeController {
         this.mapper = mapper;
         this.employeeService = employeeService;
     }
-
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<EmployeeDto> getEmployee(
             @Valid @PathVariable("id")
@@ -86,6 +85,10 @@ public class EmployeeController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
         }
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     protected EmployeeDto convertToEmployeeDto(Employee employee) {
